@@ -1,4 +1,5 @@
-import jwt from 'joswebtoken';
+// eslint-disable-next-line import/no-unresolved
+import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
 
@@ -14,18 +15,20 @@ class SessionController {
 
     if (!(await user.checkPassword(password))) {
       return res.status(401).json({
-        error: "passaword não funciona";
-      })
+        error: 'passaword não funciona',
+      });
     }
 
-    const {id, name} = user;
+    const { id, name } = user;
 
     return res.json({
       user: {
-        id, name, email,
+        id,
+        name,
+        email,
       },
-      token: jwt.sign({id}, 'hauhsdjahsjldhalskjdhalksdh')
-    })
+      token: jwt.sign({ id }, 'hauhsdjahsjldhalskjdhalksdh', {}),
+    });
   }
 }
 
