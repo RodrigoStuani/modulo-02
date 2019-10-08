@@ -1,10 +1,11 @@
-// eslint-disable-next-line import/no-unresolved
 import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
+import authConfig from '../../config/auth';
 
 class SessionController {
   async store(req, res) {
+    // passando email e password para validar login.
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });
@@ -14,9 +15,7 @@ class SessionController {
     }
 
     if (!(await user.checkPassword(password))) {
-      return res.status(401).json({
-        error: 'passaword não funciona',
-      });
+      return res.status(401).json({ error: 'passaword não funciona' });
     }
 
     const { id, name } = user;
@@ -27,7 +26,10 @@ class SessionController {
         name,
         email,
       },
-      token: jwt.sign({ id }, 'hauhsdjahsjldhalskjdhalksdh', {}),
+      // importado auth para centralizar os valores padrões. Via Payload
+      token: jwt.sign({ id }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      }),
     });
   }
 }

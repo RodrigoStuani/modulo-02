@@ -26,6 +26,7 @@
             nome: "Rodrigo Stuani,
             password: "kolelaje(123)"
           }
+
           Gerado um token para obtesão de dados.
            - Headers (tipo de token - algoritmo);
            - Payload (dados adicionais);
