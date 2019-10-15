@@ -14,7 +14,9 @@ class UserController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validação não concluída!' });
+      return res
+        .status(400)
+        .json({ error: 'Validação não concluída no [store]!' });
     }
     const userExist = await User.findOne({ where: { email: req.body.email } });
 
@@ -47,10 +49,12 @@ class UserController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validação não concluída!' });
+      return res
+        .status(400)
+        .json({ error: 'Validação não concluída [update]!' });
     }
 
-    const { email, oldPassaword } = req.body;
+    const { email, oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
 
@@ -62,7 +66,7 @@ class UserController {
       }
     }
 
-    if (oldPassaword && !(await user.checkPassword(oldPassaword))) {
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
       return res.status(401).json({ error: 'Password não bate!' });
     }
 
